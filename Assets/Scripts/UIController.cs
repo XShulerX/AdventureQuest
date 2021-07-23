@@ -23,11 +23,12 @@ public class UIController : MonoBehaviour, IObserver
         GUI.Label(new Rect(0f, 0f, 100f, 20f),"Health " + _currentHealth.ToString());
     }
 
+
     #endregion
 
     #region IObsrever
 
-    public void Update(object _object)
+    void IObserver.Update(object _object)
     {
         var characterData = (CharacterData)_object;
         if (_maxHealth != characterData.MaxHealth)
