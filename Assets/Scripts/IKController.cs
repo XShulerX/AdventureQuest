@@ -7,13 +7,16 @@ public class IKController : MonoBehaviour
     #region Fields
 
     [SerializeField]
-    private bool _isActive;
-
-    [SerializeField]
     private Transform _lookObject;
     
     [SerializeField]
+    private bool _isActive;
+
+    [SerializeField]
     private float _valueWeight;
+
+    [SerializeField]
+    private float _distanceToObject;
 
     private Animator _animator;
     private Transform _transform;
@@ -39,7 +42,7 @@ public class IKController : MonoBehaviour
             _animator.SetLookAtWeight(0);
         }
 
-        if (Vector3.Distance(_transform.position, _lookObject.position) > 5)
+        if (Vector3.Distance(_transform.position, _lookObject.position) > _distanceToObject)
             _animator.SetLookAtWeight(0);
     }
 
