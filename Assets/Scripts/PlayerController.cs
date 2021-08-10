@@ -3,9 +3,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    #region Fields
-    [SerializeField] private float _speed;
+    #region PrivateData
+
+    private AnimationController _animController;
     private Rigidbody _rigidbody;
+    private float _speedMultiplier;
+    private float _moveHorizontal;
+    private float _moveVertical;
 
     #endregion
 
@@ -13,18 +17,33 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        _animController = GetComponent<AnimationController>();
         _rigidbody = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        _animController.SetSpeed(_moveVertical * _speedMultiplier, _moveHorizontal * _speedMultiplier);    
     }
 
     private void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
+        _moveHorizontal = Input.GetAxis("Horizontal");
 
-        float moveVertical = Input.GetAxis("Vertical");
+        _moveVertical = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(moveHorizontal, _rigidbody.velocity.y, moveVertical);
+        if (Input.GetButton("Run"))
+        {
+            _speedMultiplier = 5f;
+        }
+        else
+        {
+            _speedMultiplier = 2f;
+        }
 
-        _rigidbody.velocity = movement * _speed;
+        Vector3 movement = new Vector3(_moveHorizontal, 0, _moveVertical);
+
+        _rigidbody.velocity = movement * _speedMultiplier;
         _rigidbody.angularVelocity = new Vector3(0, 0, 0);
     }
 
